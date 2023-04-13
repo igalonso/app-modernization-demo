@@ -1,4 +1,5 @@
 import flask
+import json
 from flask import request, jsonify
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -34,5 +35,14 @@ books = [
 @app.route("/chatbot")
 def homepage():
     return {}
+@app.route("/chatbot/response")
+def getResponse():
+    question = str(request.args.get('question'))
+    answer = {"response":"Is this your question?: " + question}
+    print({"response":"Is this your question?: " + question})
+    response = jsonify(answer)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Content-Type','application/json')
+    return response
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8090)

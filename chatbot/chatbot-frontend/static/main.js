@@ -1,3 +1,9 @@
+var url = "http://localhost:8090/chatbot/response";
+
+
+
+
+
 /**
  * Returns the current datetime for the message creation.
  */
@@ -67,27 +73,27 @@ function showBotMessage(message, datetime) {
  */
 $('#send_button').on('click', function (e) {
 	// get and show message and reset input
-	var userResponse = $('#msg_input').val();
+	var userMessage = $('#msg_input').val();
 	showUserMessage($('#msg_input').val());
 	$('#msg_input').val('');
 
 	// show bot message
 	setTimeout(function () {
-		//var botResponse = getBotResponse(userResponse);
-		showBotMessage(getBotResponse(userResponse))
-		//showBotMessage(randomstring());
-		
+		console.log(url+"?question="+userMessage);
+		fetch(url+"?question="+userMessage,)
+		.then(function (response){
+			return response.json();
+		})
+		.then(function (data){
+			console.log(data.response);
+			showBotMessage(data.response);
+		})
+		.catch(function(error) {
+			console.log(error);
+			alert(error);
+		});		
 	}, 300);
 });
-
-/**
- * Returns a message comming from the bot.
- */
-
-function getBotResponse(userMessage){
-
-	return randomstring();
-}
 
 
 /**
